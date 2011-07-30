@@ -4,6 +4,10 @@ var pressed = [];
 $(function() {    
     $(document).keydown(function(e) {
         pressed.push(e.keyCode);
+        $('#mst_options').css('background', '#999');
+    });
+    $(document).keyup(function() {
+        $('#mst_options').css('background', '#777')
     });
 });
 
@@ -37,7 +41,7 @@ function createCanvas() {
 	canvas.height = HEIGHT;
 	
 	var ctx = canvas.getContext("2d");
-	ctx.lineWidth = 5;
+	ctx.lineWidth = 30;
 	ctx.fillStyle = BG_COLOR;
 	ctx.fillRect(0, 0, WIDTH, HEIGHT);
 	
@@ -72,7 +76,7 @@ function createCanvas() {
 		//draws background color and background lines
 		for(var i=0; i<5; i++) {
 			ctx.strokeStyle = BG_COLOR;
-			var y = i * (HEIGHT - 32) / 4 + 16;
+			var y = i * (HEIGHT - 32) / 4;
 			ctx.beginPath();
 			ctx.moveTo(0, y);
 			ctx.lineTo(WIDTH, y);
@@ -88,7 +92,7 @@ function createCanvas() {
 			var keys = note[2];
 			
 			for(var j=0; j<keys.length; j++) {
-				var y = CHARACTER_MAP[keys[j]] * (HEIGHT - 32) / 4 + 16;
+				var y = CHARACTER_MAP[keys[j]] * (HEIGHT - 32) / 4;
 				ctx.beginPath();
 				ctx.moveTo((startNote - startDomain) / DISPLAY_TIME * WIDTH, y);
 				ctx.lineTo((endNote - startDomain) / DISPLAY_TIME * WIDTH, y);
@@ -97,11 +101,11 @@ function createCanvas() {
 		}
 		
 		//shows marker
-		ctx.strokeStyle = 'red';
-		ctx.beginPath();
-		ctx.moveTo(MARKER_TIME / DISPLAY_TIME * WIDTH, 0);
-		ctx.lineTo(MARKER_TIME / DISPLAY_TIME * WIDTH, HEIGHT);
-		ctx.stroke();
+        // ctx.strokeStyle = 'red';
+        // ctx.beginPath();
+        // ctx.moveTo(MARKER_TIME / DISPLAY_TIME * WIDTH, 0);
+        // ctx.lineTo(MARKER_TIME / DISPLAY_TIME * WIDTH, HEIGHT);
+        // ctx.stroke();
 		
 		
         
@@ -125,6 +129,6 @@ function createCanvas() {
 return canvasTimer;
 }
 
-function createStars() {
-    console.log("HOORAY!");
+function createStars(msg) {
+    console.log("Creating Star on " + msg);
 }

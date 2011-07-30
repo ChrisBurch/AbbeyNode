@@ -38,7 +38,7 @@
 		});
 
 		socket.on('abbey-node/player/oops', function(msg) {
-			createStars();
+			createStars(msg);
 		});
 
 		socket.on('abbey-node/player/lyrics', function(msg) {
@@ -49,15 +49,18 @@
 	
 	<body id="player">
 		<div id="landingPage">
-			<h1>Welcome to Abbey Node.</h1>
-			<h2>Choose an Instrument.</h2>
+			
+			<img src="img/largeLogo.png" style="position:relative; top: 15px; left: -30px" alt="" /><br />
 			
 			<ul>
 				<li><div class="instr" style="background:url(img/land_drum.png)"></div></li>
 				<li><div class="instr" style="background:url(img/land_guitar.png)"></div></li>
 				<li><div class="instr" style="background:url(img/land_mic.png)"></div></li>
+				<li><a href="player.html"><div class="instr goodToGo">GO!</div></a></li>
 			</ul>
-		  <a href="/app.html">Go!</a>	
+			
+			<h1>Welcome.</h1>
+			<h2>When three players light up, you can play!</h2>
 		</div>
 		
 		<div id="stage" style="display: none;">
@@ -89,26 +92,38 @@
 					<div id="mst_options">
 						<h1>Your Track</h1>
 					</div>
+					<div id="mst_keys">
+						<ul>
+							<li class="aa">G</li>
+							<li class="bb">F</li>
+							<li class="cc">D</li>
+							<li class="dd">S</li>
+							<li class="ee">A</li>							
+					</div>
 					<div id="mst_notes">
 						<canvas id="view"></canvas>
 					</div>
 				</div>
-			
+				
+				<div id="musicLyrics">
+					This is test text.
+				</div>		
+				
 				<div id="musicFriends">
 				
-					<div class="frBody">
+					<div id="1" class="frBody">
 						<div class="frHead"></div>
 						<div class="frInstrument"></div>
 						<div class="frName">Chris</div>
 					</div>
 				
-					<div class="frBody" style="background: green">
+					<div id="2" class="frBody" style="background: green">
 						<div class="frHead"></div>
 						<div class="frInstrument"></div>
 						<div class="frName">Rich</div>
 					</div>
 				
-					<div class="frBody" style="background: teal">
+					<div id="3" class="frBody" style="background: teal">
 						<div class="frHead"></div>
 						<div class="frInstrument"></div>
 						<div class="frName">Yusuf</div>
@@ -121,9 +136,11 @@
 				</div>
 			
 				<div id="musicAvatar">
-					<div id="mav_shadow"></div>
+					<img src="img/note1.png" class="mav_note" id="mav_note1" alt="" />
+					<img src="img/note2.png" class="mav_note" id="mav_note2" alt="" />
 					<div id="mav_body">
 						<img id="mav_instrument" src="img/guitar.png" alt="" />
+						<img id="mav_altInstr" src="img/drum.png" style="left: -55px; top: -40px; display: none" alt="" />
 						<div id="mav_head">
 							<img id="mvh-sg" src="img/sunglasses.png" style="display: none; top: 25px; left: 5px" />
 						</div>
@@ -145,12 +162,7 @@
 				</div>
 			
 			</div>
-		
-			<div id="optionBar">
-				<div id="optTimer">
-					00:10:00
-				</div>
-			</div>
+
 		</div>
 	</body>
 </html>

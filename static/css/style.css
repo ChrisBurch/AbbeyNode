@@ -12,13 +12,15 @@ body {
 
 
 /* LANDING PAGE */
+/* LANDING PAGE */
 
 div#landingPage {
 	position: absolute;
-	top: 16%; left: 12%;
+	top: 14%; left: 10%;
 }
 
 div#landingPage h1 {
+	margin-top: 30px;
 	display: inline-block;
 	font-size: 30px;
 	font-weight: bold;
@@ -33,6 +35,7 @@ div#landingPage h2 {
 }
 
 div#landingPage ul {
+	width: 900px;
 	margin-top: 40px;
 	margin-left: -7px;
 }
@@ -43,15 +46,24 @@ div#landingPage ul li {
 }
 
 div#landingPage div.instr {
+	float: left;
 	opacity: 0.3;
 	position: relative;
 	top: 7px; left: 7px;
 	width: 140px; height: 140px;
 	background: #444;
 	cursor: pointer;
+	font-size: 3em; font-weight: bold;
+	text-align: center;
 	-webkit-box-shadow: inset 0px 0px 20px #111;
 	-webkit-border-radius: 70px;
 	-webkit-transition: all 0.3s;
+}
+
+div#landingPage a .goodToGo {
+	padding-top: 50px; height: 90px;
+	text-decoration: none;
+	color: white;
 }
 
 div#landingPage div.instr:hover,
@@ -64,6 +76,9 @@ div#landingPage div.active {
 	-webkit-border-radius: 75px;
 }
 
+div#landingPage a .goodToGo:hover {
+	height: 100px;
+}
 
 /* PLAYER CSS */
 
@@ -97,7 +112,6 @@ div#navBar ul li:last-child {
 	margin: 0;
 }
 
-
 /* AVATAR CSS */
 
 div#musicAvatar {
@@ -120,8 +134,6 @@ div#mav_body > * { position: absolute; }
 
 @-webkit-keyframes bounce 	{ from {} to { top: -65px; -webkit-transform: rotate(-25deg); } }
 @-webkit-keyframes rip		{ from {} to { top: 32px; left: 160px; }}
-
-@-webkit-keyframes superRip { from {}}
 
 #mav_head {
 	position: absolute;
@@ -171,14 +183,31 @@ div#mav_body > * { position: absolute; }
 	-webkit-animation-duration: 0.5s;
 }
 
-div#mav_body img:nth-child(1)	{ left: -10px; }
+@-webkit-keyframes superRip { 
+	from { top: 10px; left: 105px; } to { top: -15px; left: 120px; } }
 
-div#mav_shadow {
-	background: url('../img/spotlight.png') 30px 0px no-repeat;
-	position: absolute;
-	width: 100%; height: 400px;
-	top: -100px;
+.mav_hand#mvh_right.superRip {
+	/* ANIMATION */
+	-webkit-animation-name: superRip;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
+	-webkit-animation-duration: 0.08s;
 }
+
+#mav_head.superRip {
+	/* ANIMATION */
+	-webkit-animation-name: none;
+	-webkit-transform: rotate(-45deg);
+	position: relative;
+	top: -75px; right: -30px;
+}
+
+#mav_instrument.superRip {
+	-webkit-transform: rotate(-30deg);
+	top: -40px;
+}
+
+div#mav_body img:nth-child(1)	{ left: -10px; }
 
 div#musicAvatar > h1 {
 	position: relative;
@@ -201,6 +230,27 @@ div#musicAvatar > h1.opened {
 	-webkit-border-bottom-left-radius: 0px;
 	-webkit-border-bottom-right-radius: 0px;
 	background: black;
+}
+
+@-webkit-keyframes noteFloat { from {} to { top: -40px; opacity: 0; } }
+@-webkit-keyframes noteFloat2 { from {} to { top: -80px; opacity: 0; } }
+
+img.mav_note 	{ position: absolute; }
+
+img#mav_note1	{ 
+	top: 50px; right: 75px; 
+	/* ANIMATION */
+	-webkit-animation-name: noteFloat;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-duration: 3.5s;
+}
+
+img#mav_note2 { 
+	top: 0px; right: 110px;
+	/* ANIMATION */
+	-webkit-animation-name: noteFloat2;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-duration: 3.5s;
 }
 
 div#mav_dress {
@@ -228,6 +278,7 @@ div#mav_dress ul li {
 	margin-right: 12px;
 	width: 20px; height: 20px;
 	background: red;
+	cursor: pointer;
 }
 
 div#mav_dress li:nth-child(2) { background: orange }
@@ -236,11 +287,11 @@ div#mav_dress li:nth-child(4) { background: green }
 div#mav_dress li:nth-child(5) { background: blue }
 div#mav_dress li:nth-child(6) { background: teal }
 
-
 /* TRACK & FRIENDS CSS */
 
 div#musicFriends {
 	float: right;
+	margin-top: 120px;
 	width: 70%;
 }
 
@@ -257,6 +308,11 @@ div.addFr {
 	padding: 15px;
 }
 
+div.addFr.active {
+	width: 200px;
+	overflow: hidden;
+}
+
 div.frBody {
 	float: left;
 	margin-right: 50px;
@@ -266,6 +322,16 @@ div.frBody {
 	-webkit-border-top-left-radius: 60px 150px;
 	-webkit-border-top-right-radius: 60px 150px;
 }
+
+/*div.i {
+    float: left;
+    margin-right: 50px;
+    position: relative;
+    width: 70px; height: 70px;
+    background: blue;
+    -webkit-border-top-left-radius: 60px 150px;
+    -webkit-border-top-right-radius: 60px 150px;
+}*/
 
 @-webkit-keyframes subtleBounce { from {} to { top: -40px; -webkit-transform: rotate(-25deg); } }
 
@@ -284,6 +350,18 @@ div.frHead {
 	-webkit-animation-duration: 0.5s;
 }
 
+.frHead:before {
+	content: url(../img/smallEye.png);
+	position: absolute;
+	left: 15px; top: 12px;
+}
+
+.frHead:after {
+	content: url(../img/smallEye.png);
+	position: absolute;
+	right: 7px; top: 12px;
+}
+
 div.frName {
 	position: absolute;
 	top: 90px; font-size: 12px;
@@ -297,7 +375,6 @@ div#musicTrack {
 	float: right;
 	padding-top: 10px;
 	width: 70%;
-	margin-bottom: 90px;
 	overflow: hidden;
 	-webkit-border-radius: 6px;
 }
@@ -319,6 +396,7 @@ div#mst_options {
 
 div#mst_menu {
 	position: absolute;
+	float: right;
 	right: 15px;
 	margin-bottom: 20px;
 }
@@ -360,8 +438,6 @@ div#mst_notes {
 	padding: 15px;
 	height: 150px;
 	background: #222;
-	border: 1px solid black;
-	-webkit-box-shadow: inset 0px 0px 10px 2px #111;
 }
 
 div#mst_notes p {
@@ -396,11 +472,12 @@ div#mst_notes_lines ul li:first-child {
 
 /* OPTIONS FOOTER CSS */
 
-div#optionBar {
+#optionBar {
 	position: fixed;
 	bottom: 0px;
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#777777), to(#656565));
+	background: #777;
 	padding: 8px;
+	-webkit-transition: background 0.1s linear;
 }
 
 div#optTimer {
@@ -414,4 +491,15 @@ div#optTimer {
 	padding: 10px;
 	-webkit-box-shadow: inset 0px 3px 2px #333;
 	-webkit-border-radius: 4px;
+}
+
+
+/* LYRICS */
+
+div#musicLyrics {
+	float: right;
+	padding: 1%;
+	background: #181818;
+	width: 68%;
+	margin-top: -38px;
 }

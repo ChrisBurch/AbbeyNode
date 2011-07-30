@@ -27,22 +27,24 @@
 			
 			function ready(playerId, stageId, instrument, song) {
 				socket = io.connect();
-				
-				socket.on('
 			}
 		</script>
   </head>
 	
 	<body>
 		<div id="landingPage">
-			<h1>Welcome to Abbey Node.</h1>
-			<h2>Waiting for others.</h2>
+			
+			<img src="img/largeLogo.png" style="position:relative; top: 15px; left: -30px" alt="" /><br />
 			
 			<ul>
 				<li><div class="instr" style="background:url(img/land_drum.png)"></div></li>
 				<li><div class="instr" style="background:url(img/land_guitar.png)"></div></li>
 				<li><div class="instr" style="background:url(img/land_mic.png)"></div></li>
+				<li><a href="player.html"><div class="instr goodToGo">GO!</div></a></li>
 			</ul>
+			
+			<h1>Welcome.</h1>
+			<h2>When three players light up, you can play!</h2>
 		</div>
 	</body>
 	
