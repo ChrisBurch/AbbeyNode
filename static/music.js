@@ -3,6 +3,14 @@
 
 // number keys select track (beats, guitar, drum, bass, (cowbell))
 var instrument = 0;
+var instrumentString = "";
+
+var beatCount = 0;
+var guitarCount = 0;
+var bassCount = 0;
+var drumCount = 0;
+var cowbellCount = 0;
+
 var numInstruments = 5;
 
 var canStartPlaying = false;
@@ -26,6 +34,52 @@ function getInstrumentCode(keyCode)
     return keyCode - 49;
 }
 
+function lookupInstrumentString(instrument)
+{
+    switch(instrument)
+    {
+        case 0: return "Beat setter"
+        case 1: return "Guitar"
+        case 2: return "Bass"
+        case 3: return "Drums"
+        case 4: return "Cowbell"
+        default: return "More Cowbell!"
+    }
+}
+
+function incrementInstrumentCount(instrument)
+{
+    switch(instrument)
+    {
+        case 0: 
+            beatCount++;
+            break;
+        case 1: 
+            guitarCount++;
+            break;
+        case 2: 
+            bassCount++;
+            break;
+        case 3: 
+            drumCount++;
+            break;
+        case 4: 
+            cowbellCount++;
+            break;
+    }
+}
+
+function updateDisplayedData()
+{
+    $('#instrument').text("Instrument: " + instrumentString);
+    $('#beat_count').text("Number of beats: " + beatCount);
+    $('#guitar_count').text("Number of guitar notes: " + guitarCount);
+    $('#bass_count').text("Number of bass notes: " + bassCount);
+    $('#drum_count').text("Number of drum notes: " + drumCount);
+    $('#cowbell_count').text("Number of cowbell... hits?: " + cowbellCount);
+    
+}
+
 $(function() {
     console.log("In bootup function");
     
@@ -36,6 +90,7 @@ $(function() {
         {
             console.log("Setting instrument: " + instrumentCode);
             instrument = instrumentCode;
+            instrumentString = lookupInstrumentString(instrument)
         }
         else if(event.keyCode == 13)
         {
@@ -45,6 +100,7 @@ $(function() {
             console.log("Pressed enter!");
             if (canStartPlaying == false)
                 return;
+                
             if(isPlaying)
             {
                 song.pause();
@@ -56,25 +112,26 @@ $(function() {
                 isPlaying = true;
             }
         }
+        else if(event.keyCode == 77)
+        {
+            // <M>
+            submit();
+        }
         else if(event.keyCode == 82)
         {
             // <R>
             isPlaying = false;
             song.stop();
-        }
-        else if(event.keyCode == 77)
-        {
-            // <M>
-            // match to beats, spit out JSON
-            var matchedBeats = matchBeats();
-            printJSONTracks(matchedBeats);
-        }
+        } 
         else
         {
             // record timestamp
             console.log("instrument: " + instrument);
             tracks[instrument].push([song.getTime()*1000, event.keyCode]);
+            incrementInstrumentCount(instrument);
         }
+        // update fields on page
+        updateDisplayedData();
     });
     
     
@@ -129,15 +186,17 @@ function findMatchingBeats(track, timestamp)
 }
 
 
-function printJSONTracks(matchedBeats)
+function submit()
 {
+    var matchedBeats = matchBeats();
     console.log("Printing JSON:\n******************\n");
     console.log(JSON.stringify(matchedBeats));
     console.log(matchedBeats);
-    
-    // /api/sheet
+    var lyrics = $('#musicLyrics').val();
+    console.log("lyrics: " + lyrics);
+    var sheet = { tracks : matchedBeats, lyrics : lyrics }    // /api/sheet
     // name, sheet params
-    $.post("api/sheet", { name: songName, sheet: JSON.stringify(matchedBeats)},
+    $.post("api/sheet", { name: songName, sheet: JSON.stringify(sheet)},
                     function(data){
                         console.log("Returned with: " + data)
                  });
