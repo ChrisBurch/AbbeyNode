@@ -9,7 +9,7 @@ var songs = require("./songs");
 var app = express.createServer();
 var io = require("socket.io").listen(app);
 
-var SONG_UPLOAD_REDIRECT_URL = '/musicmaker/index.html'
+var SONG_UPLOAD_REDIRECT_URL = '/musicmaker.html'
 
 app.configure(function() {
     app.use(express.static(__dirname + '/static'));
