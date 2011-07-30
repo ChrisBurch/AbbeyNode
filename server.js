@@ -38,8 +38,10 @@ app.post('/api/song', formCallback(function(request, response, fields, files) {
 }));
 
 //Special endpoints for android
-app.get('/api/oops', androidCallback(androidPlayerOopsied));
-app.get('/api/accuracy', androidCallback(androidPlayerAccuracy));
+app.post('/api/accuracy', formCallback(function(request, response, fields, files) {
+    console.log("hi?");
+    stages[fields.stageId].broadcast("abbey-node/player/lyrics", fields.lyrics);
+}));
 
 //socket.io endpoint
 io.sockets.on("connection", function(socket) {
@@ -74,32 +76,6 @@ function playerDone(socket, stage, player) {
 
 function playerOopsied(socket, stage, player) {
     stage.broadcast("abbey-node/player/oops", player.id);
-}
-
-function androidPlayerOopsied(request, response, stage, player) {
-    stage.broadcast("abbey-node/player/oops", player.id);
-}
-
-function androidPlayerAccuracy(request, response, stage, player) {
-    stage.broadcast("abbey-node/player/lyrics", request.get("lyrics"));
-}
-
-function androidCallback(callback) {
-    return function(request, response) {
-        var stage = stages[request.get('stageId')];
-        if(!stage) {
-            console.error("No stage found!");
-            return;
-        }
-        
-        var player = stage.players[request.get('playerId')];
-        if(!player) {
-            console.error("No player found!");
-            return;
-        }
-        
-        callback(request, response, stage, player);
-    }
 }
 
 //helper functions

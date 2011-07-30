@@ -52,12 +52,16 @@ Stage.prototype = {
     },
     
     isReady: function() {
-        return !this.hasNormalSlots() && _.all(this.players, function(v, k) { return v.ready; });
+        return !this.hasNormalSlots() && _.all(this.players, function(v, k) { 
+            return v.instrument == "special" ? true : v.ready;
+        });
     },
     
     broadcast: function(name, content) {
         _.each(this.players, function(player) {
-            player.socket.emit(name, content);
+            if(player.socket != null) {
+                player.socket.emit(name, content);
+            }
         });
     }
 };
