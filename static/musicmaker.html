@@ -9,16 +9,29 @@
 Hello!
 <br />
 
-<form action="http://172.16.5.83:8080/api/song" enctype="multipart/form-data" method="post">
-<input type="file" name="song" multiple="multiple">
-	<input type="submit" value="Upload" />
-</form>
+Use the number keys select track (1:beats, 2:guitar, 3:bass, 4:drum, (5:cowbell))
 <br />
-number keys select track (1:beats, 2:guitar, 3:bass, 4:drum, (5:cowbell))
 
-<div id="foo" >
+'Enter': start/pause the song
+'R': start song from beginning (for recording next track)
+'M': upload all tracks to server
+
+<br />
+<br />
+
+<div id="instrument" ></div>
+<div id="beat_count"></div>
+<div id="guitar_count"></div>
+<div id="bass_count"></div>
+<div id="drum_count"></div>
+<div id="cowbell_count"></div>
 	
-</div>
 	
+<br />
+<br />
+Please add the lyrics for this song below:
+<br />
+<textarea id="musicLyrics" name="lyrics" rows=30 cols=80></textarea>
+<br />
 
 </html>
