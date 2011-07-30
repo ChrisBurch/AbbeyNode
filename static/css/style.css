@@ -1,0 +1,417 @@
+html { height: 100%; width: 100%; }
+
+body {
+	background: #333;
+	color: white;
+	font-size: 14px;
+	overflow: hidden;
+	width: 100%; height: 100%;
+	font-family: 'Helvetica Neue', Arial;
+	-webkit-box-shadow: inset 0px 0px 700px 50px #222;
+}
+
+
+/* LANDING PAGE */
+
+div#landingPage {
+	position: absolute;
+	top: 16%; left: 12%;
+}
+
+div#landingPage h1 {
+	display: inline-block;
+	font-size: 30px;
+	font-weight: bold;
+	-webkit-text-shadow: 0px 1px 0px black;
+}
+
+div#landingPage h2 {
+	display: inline-block;
+	color: #AAA;
+	font-size: 17px;
+	margin-left: 10px;
+}
+
+div#landingPage ul {
+	margin-top: 40px;
+	margin-left: -7px;
+}
+
+div#landingPage ul li {
+	width: 170px; height: 170px;
+	display: inline-block;
+}
+
+div#landingPage div.instr {
+	opacity: 0.3;
+	position: relative;
+	top: 7px; left: 7px;
+	width: 140px; height: 140px;
+	background: #444;
+	cursor: pointer;
+	-webkit-box-shadow: inset 0px 0px 20px #111;
+	-webkit-border-radius: 70px;
+	-webkit-transition: all 0.3s;
+}
+
+div#landingPage div.instr:hover,
+div#landingPage div.active {
+	opacity: 1;
+	top: 0px; left: 0px;
+	width: 150px; height: 150px;
+	background: #777;
+	background-position: 0 0;
+	-webkit-border-radius: 75px;
+}
+
+
+/* PLAYER CSS */
+
+body#player > div {
+	float: left;
+	width: 100%;
+}
+
+div#navBar {
+	background: #444 -webkit-gradient(linear, 0% 0%, 0% 59%, from(#444444), to(#000));
+	padding: 12px;
+	margin-bottom: 40px;
+}
+
+div#navBar ul {
+	float: right;
+	margin-right: 30px;
+	background: #333;
+	-webkit-border-radius: 8px;
+	padding: 5px 12px 8px 12px;
+}
+
+div#navBar ul li {
+	font-size: 11px;
+	font-weight: bold;
+	display: inline-block;
+	margin-right: 15px;
+}
+
+div#navBar ul li:last-child {
+	margin: 0;
+}
+
+
+/* AVATAR CSS */
+
+div#musicAvatar {
+	width: 30%;
+	padding-top: 100px;
+	position: relative;
+}
+
+div#musicAvatar #mav_body {
+	position: relative;
+	left: 50%;
+	margin-left: -100px;
+	width: 140px; height: 160px;
+	background: red;
+	-webkit-border-top-left-radius: 60px 150px;
+	-webkit-border-top-right-radius: 60px 150px;
+}
+
+div#mav_body > * { position: absolute; }
+
+@-webkit-keyframes bounce 	{ from {} to { top: -65px; -webkit-transform: rotate(-25deg); } }
+@-webkit-keyframes rip		{ from {} to { top: 32px; left: 160px; }}
+
+@-webkit-keyframes superRip { from {}}
+
+#mav_head {
+	position: absolute;
+	top: -75px; right: 20px;
+	width: 80px; height: 90px;
+	background: #FFF;
+	-webkit-border-radius: 40px;
+	
+	/* ANIMATION */
+	-webkit-animation-name: bounce;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
+	-webkit-animation-duration: 0.5s;
+}
+
+#mav_head:before {
+	content: url(../img/eye.png);
+	position: absolute;
+	left: 30px; top: 25px;
+}
+
+#mav_head:after {
+	content: url(../img/eye.png);
+	position: absolute;
+	right: 8px; top: 25px;
+}
+
+#mav_head > img {
+	position: absolute;
+}
+
+.mav_hand {
+	width: 30px; height: 30px;
+	-webkit-border-radius: 15px;
+	position: relative;
+	background: white;
+}
+
+.mav_hand#mvh_left 	{ top: 80px; left: 25px; }
+.mav_hand#mvh_right	{ 
+	top: 40px; left: 145px; 
+	
+	/* ANIMATION */
+	-webkit-animation-name: rip;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
+	-webkit-animation-duration: 0.5s;
+}
+
+div#mav_body img:nth-child(1)	{ left: -10px; }
+
+div#mav_shadow {
+	background: url('../img/spotlight.png') 30px 0px no-repeat;
+	position: absolute;
+	width: 100%; height: 400px;
+	top: -100px;
+}
+
+div#musicAvatar > h1 {
+	position: relative;
+	width: 150px;
+	margin: 0 auto;
+	border: 1px solid #CCC;
+	padding: 8px 18px;
+	-webkit-border-radius: 16px;
+	margin-top: 45px;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+div#musicAvatar > h1:hover {
+	background: black;
+}
+
+div#musicAvatar > h1.opened {
+	border: 1px solid black;
+	-webkit-border-bottom-left-radius: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	background: black;
+}
+
+div#mav_dress {
+	display: none;
+	background: black;
+	width: 70%; margin: 0 auto;
+	padding: 15px;
+	-webkit-border-radius: 5px;
+}
+
+input#mav_name {
+	display: block;
+	padding: 6px 10px;
+	width: 100%;
+	border: 0px; margin: 0 auto;
+}
+
+div#mav_dress ul {
+	margin: 0 auto;
+	margin-top: 15px;
+}
+
+div#mav_dress ul li {
+	display: inline-block;
+	margin-right: 12px;
+	width: 20px; height: 20px;
+	background: red;
+}
+
+div#mav_dress li:nth-child(2) { background: orange }
+div#mav_dress li:nth-child(3) { background: yellow }
+div#mav_dress li:nth-child(4) { background: green }
+div#mav_dress li:nth-child(5) { background: blue }
+div#mav_dress li:nth-child(6) { background: teal }
+
+
+/* TRACK & FRIENDS CSS */
+
+div#musicFriends {
+	float: right;
+	width: 70%;
+}
+
+div.addFr {
+	position: relative;
+	text-align: center;
+	top: -15px; float: left;
+	width: 50px;
+	line-height: 18px;
+	border: 2px solid #CCC;
+	background: #777;
+	font-weight: bold;
+	-webkit-border-radius: 10px;
+	padding: 15px;
+}
+
+div.frBody {
+	float: left;
+	margin-right: 50px;
+	position: relative;
+	width: 70px; height: 70px;
+	background: blue;
+	-webkit-border-top-left-radius: 60px 150px;
+	-webkit-border-top-right-radius: 60px 150px;
+}
+
+@-webkit-keyframes subtleBounce { from {} to { top: -40px; -webkit-transform: rotate(-25deg); } }
+
+div.frHead {
+	position: absolute;
+	top: -45px; left: 15px;
+	width: 45px; height: 50px;
+	background: #FFF;
+	-webkit-border-radius: 40px;
+	-webkit-transform: rotate(10deg);
+	
+	/* ANIMATION */
+	-webkit-animation-name: subtleBounce;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
+	-webkit-animation-duration: 0.5s;
+}
+
+div.frName {
+	position: absolute;
+	top: 90px; font-size: 12px;
+}
+
+
+/* MUSIC NOTES */
+
+div#musicTrack {
+	position: relative;
+	float: right;
+	padding-top: 10px;
+	width: 70%;
+	margin-bottom: 90px;
+	overflow: hidden;
+	-webkit-border-radius: 6px;
+}
+
+div#musicTrack > h1 {
+	font-size: 1.6em;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+div#musicTrack h2 {
+	margin-bottom: 25px;
+}
+
+div#mst_options {
+	background: #111 -webkit-gradient(linear, 0% 0%, 0% 59%, from(#191919), to(#111));
+	padding: 8px;
+}
+
+div#mst_menu {
+	position: absolute;
+	right: 15px;
+	margin-bottom: 20px;
+}
+
+div#mst_menu li {
+	display: inline-block;
+	cursor: pointer;
+	padding: 6px 11px;
+	font-size: 12px;
+	border: 1px solid #AAA;
+	margin-right: 9px;
+	-webkit-border-radius: 14px;
+}
+
+div#mst_menu li:hover {
+	background: black;
+}
+
+div#mst_keys {
+	position: absolute;
+	width: 20px;
+	left: 45px;
+	z-index: 5;
+}
+
+div#mst_keys li {
+	width: 20px; height: 36px;
+	background: white;
+}
+
+div#mst_keys li:nth-child(1) { background: red } 
+div#mst_keys li:nth-child(2) { background: orange } 
+div#mst_keys li:nth-child(3) { background: yellow } 
+div#mst_keys li:nth-child(4) { background: green } 
+div#mst_keys li:nth-child(5) { background: blue } 
+
+div#mst_notes {
+	position: relative;
+	padding: 15px;
+	height: 150px;
+	background: #222;
+	border: 1px solid black;
+	-webkit-box-shadow: inset 0px 0px 10px 2px #111;
+}
+
+div#mst_notes p {
+	margin-right: 2px;
+	position: relative;
+	float: left;
+	border-top: 4px solid white;
+	width: 40px; height: 200px;
+}
+
+div#mst_notes p.a { border-color: red; }
+div#mst_notes p.s { border-color: orange; top: 35px; }
+div#mst_notes p.d { border-color: yellow; top: 70px; }
+div#mst_notes p.f { border-color: green; top: 105px; }
+div#mst_notes p.g { border-color: blue; top: 140px; }
+
+div#mst_notes_lines {
+	position: absolute;
+	width: 100%;
+	z-index: 3;
+}
+
+div#mst_notes_lines ul li {
+	height: 35px;
+	border-top: 1px dashed #777;
+}
+
+div#mst_notes_lines ul li:first-child {
+	border: 0;
+}
+
+
+/* OPTIONS FOOTER CSS */
+
+div#optionBar {
+	position: fixed;
+	bottom: 0px;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#777777), to(#656565));
+	padding: 8px;
+}
+
+div#optTimer {
+	color: black;
+	text-align: center;
+	width: 300px;
+	margin: 0 auto;
+	font-size: 1.8em;
+	font-weight: bold;
+	background: -webkit-gradient(linear, 0% 0%, 0% 68%, from(#C9E3C1), to(#8DC276));
+	padding: 10px;
+	-webkit-box-shadow: inset 0px 3px 2px #333;
+	-webkit-border-radius: 4px;
+}
