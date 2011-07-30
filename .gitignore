@@ -1,6 +1,4 @@
 .DS_Store
-static/songs/*.mp3
-static/sheets/*.json
 node_modules
 *.swp
 *.swo

@@ -1,34 +1,48 @@
 <html>
 	
 	<head>
-		<title>Abbey Node | Rock Band for da Web</title>
+		<title>Abbey Node</title>
 		<link rel="stylesheet" href="css/reset.css" />
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="/socket.io/socket.io.js" type="text/javascript"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="js/ui.js"></script>
-	<script type="text/javascript">
-    //window.onmousemove = function(event) {
-    //  var socket = io.connect();
-    //  socket.on('connect', function() {
-    //    console.log("Connected!"); 
-    //  });
-    //  socket.emit(event.clientX + ':' + event.clientY);
-    //}
-  </script>
+		<script type="text/javascript">
+			socket = io.connect();
+			
+			$(function() {
+				var name = prompt("What's your name?");
+				
+				$.ajax({
+					type: "POST",
+					url: "/api/init",
+					dataType: "json",
+					data: {name: name},
+					
+					success: function(json) {
+						ready(json.playerId, json.stageId, json.instrument, json.song);
+					}
+				});
+			});
+			
+			function ready(playerId, stageId, instrument, song) {
+				socket = io.connect();
+				
+				socket.on('
+			}
+		</script>
   </head>
 	
 	<body>
 		<div id="landingPage">
 			<h1>Welcome to Abbey Node.</h1>
-			<h2>Choose an Instrument.</h2>
+			<h2>Waiting for others.</h2>
 			
 			<ul>
 				<li><div class="instr" style="background:url(img/land_drum.png)"></div></li>
 				<li><div class="instr" style="background:url(img/land_guitar.png)"></div></li>
 				<li><div class="instr" style="background:url(img/land_mic.png)"></div></li>
 			</ul>
-		  <a href="/app.html">Go!</a>	
 		</div>
 	</body>
 	
