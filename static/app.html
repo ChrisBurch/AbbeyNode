@@ -42,7 +42,7 @@
 		});
 
 		socket.on('abbey-node/player/lyrics', function(msg) {
-			//TODO
+			$('#musicLyrics').text(msg);
 		});
 		</script>
 	</head>
@@ -56,7 +56,7 @@
 				<li><div class="instr" style="background:url(img/land_drum.png)"></div></li>
 				<li><div class="instr" style="background:url(img/land_guitar.png)"></div></li>
 				<li><div class="instr" style="background:url(img/land_mic.png)"></div></li>
-				<li><a href="player.html"><div class="instr goodToGo">GO!</div></a></li>
+				<!-- <li><a href="player.html"><div class="instr goodToGo">GO!</div></a></li> -->
 			</ul>
 			
 			<h1>Welcome.</h1>

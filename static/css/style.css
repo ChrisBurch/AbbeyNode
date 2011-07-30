@@ -333,6 +333,11 @@ div.frBody {
     -webkit-border-top-right-radius: 60px 150px;
 }*/
 
+.musicSparklers {
+    position: absolute;
+    opacity: 0.8;
+}
+
 @-webkit-keyframes subtleBounce { from {} to { top: -40px; -webkit-transform: rotate(-25deg); } }
 
 div.frHead {

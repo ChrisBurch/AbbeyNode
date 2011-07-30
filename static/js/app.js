@@ -129,6 +129,14 @@ function createCanvas() {
 return canvasTimer;
 }
 
-function createStars(msg) {
-    console.log("Creating Star on " + msg);
+function createStars(item) {
+    var blah = [$('#1'), $('#2'), $('#3')];
+    item = blah[Math.floor(Math.random()*3)];
+    console.log(item);
+    var startPosX = item.width/2, startPosY = item.height/2,
+        img = $('<img src="img/star.png" class="musicSparklers">').css('left', startPosX).css('top', startPosY),
+        img2 = img.clone();
+    $(item).append(img);
+    $(img).animate({ opacity: 0, left: '-50px', top: '-40px' }, 500, function(){ $(this).remove(); });
+    $(img2).animate({ opacity: 0, right: '30px', top: '-20px' }, 700, function(){ $(this).remove(); });
 }
