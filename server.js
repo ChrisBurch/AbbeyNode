@@ -8,6 +8,8 @@ var songs = require("./songs");
 var app = express.createServer();
 var io = require("socket.io").listen(app);
 
+var SONG_UPLOAD_REDIRECT_URL = '/musicmaker/index.html'
+
 app.configure(function() {
     app.use(express.static(__dirname + '/static'));
     app.use(express.logger());
@@ -26,12 +28,11 @@ app.post('/api/init', formCallback(function(request, response, fields, files) {
 
 app.post('/api/sheet', formCallback(function(request, response, fields, files) {
     songs.saveSheet(fields.name, fields.sheet);
-    response.send("/sheets/" + fields.name + ".json");
 }));
 
 app.post('/api/song', formCallback(function(request, response, fields, files) {
     songs.saveSong(fields.name, files.song.path);
-    response.send("/songs/" + fields.name + ".mp3");
+    response.redirect(SONG_UPLOAD_REDIRECT_URL);
 }));
 
 //Special endpoints for android
