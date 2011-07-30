@@ -1,0 +1,9 @@
+{
+  "name": "abbey-node",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": ">=2.2.0",
+    "socket.io": ">=0.0.1",
+    "ejs": ">=0.0.1"
+  }
+}
