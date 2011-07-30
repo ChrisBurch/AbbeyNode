@@ -13,6 +13,8 @@ var cowbellCount = 0;
 
 var numInstruments = 5;
 
+var musicalKeys = [65, 83, 68, 70, 71, 32];
+
 var canStartPlaying = false;
 
 var songName = getParameterByName('name');
@@ -123,7 +125,7 @@ $(function() {
             isPlaying = false;
             song.stop();
         } 
-        else
+        else if($.inArray(event.keyCode, musicalKeys) != -1)
         {
             // record timestamp
             console.log("instrument: " + instrument);
