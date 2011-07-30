@@ -24,7 +24,8 @@ app.get('/', function(request, response) {
 
 //Normal api endpoints
 app.post('/api/init', formCallback(function(request, response, fields, files) {
-    response.send(addPlayer(fields.name));
+    var special = "special" == fields.instrument;
+    response.send(addPlayer(fields.name, special));
 }));
 
 app.post('/api/sheet', formCallback(function(request, response, fields, files) {
@@ -47,6 +48,42 @@ io.sockets.on("connection", function(socket) {
     socket.on("abbey-node/player/oops", socketCallback(socket, playerOopsied));
 });
 
+//callbacks
+function playerReady(socket, stage, player) {
+    player.setReady(socket);
+    
+    if(stage.isReady()) {
+        stage.broadcast("abbey-node/stage/ready", _.map(stage.players, function(player) {
+            return {
+                playerId: player.id,
+                name: player.name,
+                instrument: player.instrument
+            }
+        }));
+    }
+}
+
+function playerDone(socket, stage, player) {
+    player.done = true;
+    
+    if(stage.isDone()) {
+        console.log("Killing stage:", stage.id);
+        delete stages[stage.id];
+    }
+}
+
+function playerOopsied(socket, stage, player) {
+    stage.broadcast("abbey-node/player/oops", player.id);
+}
+
+function androidPlayerOopsied(request, response, stage, player) {
+    stage.broadcast("abbey-node/player/oops", player.id);
+}
+
+function androidPlayerAccuracy(request, response, stage, player) {
+    stage.broadcast("abbey-node/player/lyrics", request.get("lyrics"));
+}
+
 function androidCallback(callback) {
     return function(request, response) {
         var stage = stages[request.get('stageId')];
@@ -61,10 +98,11 @@ function androidCallback(callback) {
             return;
         }
         
-        callback(stage, player);
+        callback(request, response, stage, player);
     }
 }
 
+//helper functions
 function socketCallback(socket, callback) {
     return function(message) {
         var stage = stages[message.stageId];
@@ -95,13 +133,13 @@ function formCallback(callback) {
     }
 }
 
-function createStage() {
-    curStage = new model.Stage();
-    stages[curStage.id] = curStage;
-}
-
-function addPlayer(name) {
-    var player = curStage.addPlayer(name);
+//creators
+function addPlayer(name, special) {
+    if(special && !curStage.hasSpecialSlots()) {
+        return false;
+    }
+    
+    var player = curStage.addPlayer(name, special);
     
     var response = {
         playerId: player.id,
@@ -110,37 +148,14 @@ function addPlayer(name) {
         song: curStage.song
     };
     
-    if(curStage.isFilled()) createStage();
+    if(!curStage.hasNormalSlots()) createStage();
+    
     return response;
 }
 
-function playerReady(socket, stage, player) {
-    player.setReady(socket);
-    
-    if(stage.isReady()) {
-        stage.broadcast("abbey-node/stage/ready", null);
-    }
-}
-
-function playerDone(socket, stage, player) {
-    player.done = true;
-    
-    if(stage.isDone()) {
-        console.log("Killing stage:", stage.id);
-        delete stages[stage.id];
-    }
-}
-
-function playerOopsied(socket, stage, player) {
-    stage.broadcast("abbey-node/player/oops", player.id);
-}
-
-function androidPlayerOopsied(stage, player) {
-    stage.broadcast("abbey-node/player/oops", player.id);
-}
-
-function androidPlayerAccuracy(stage, player) {
-    //TODO
+function createStage() {
+    curStage = new model.Stage();
+    stages[curStage.id] = curStage;
 }
 
 var stages = {};

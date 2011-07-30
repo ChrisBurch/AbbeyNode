@@ -2,7 +2,7 @@ var util = require("./util");
 var _ = require("./underscore")._;
 var songs = require("./songs");
 
-var INSTRUMENTS = ["guitar", "bass_guitar", "drums", "cowbell"];
+var INSTRUMENTS = ["guitar", "bass_guitar", "drums"];
 
 var lastPlayerId = 0;
 var lastStageId = 0;
@@ -31,26 +31,32 @@ function Stage() {
 }
 
 Stage.prototype = {
-    addPlayer: function(name) {
-        var player = new Player(name, this.openInstruments.pop());
+    addPlayer: function(name, special) {
+        var instrument = special ? "special" : this.openInstruments.pop();
+        
+        var player = new Player(name, instrument);
         this.players[player.id] = player;
         return player;
     },
     
-    isFilled: function() {
-        return this.openInstruments.length == 0;
+    hasNormalSlots: function() {
+        return this.openInstruments.length > 0;
+    },
+    
+    hasSpecialSlots: function() {
+        return !_.any(this.players, function(v) { return v.instrument == "special"; });
     },
     
     isDone: function() {
-        return this.isFilled() && _.all(this.players, function(v, k) { return v.done; });
+        return !this.hasNormalSlots() && _.all(this.players, function(v, k) { return v.done; });
     },
     
     isReady: function() {
-        return this.isFilled() && _.all(this.players, function(v, k) { return v.ready; });
+        return !this.hasNormalSlots() && _.all(this.players, function(v, k) { return v.ready; });
     },
     
     broadcast: function(name, content) {
-        _.each(this.players, function(player, playerId) {
+        _.each(this.players, function(player) {
             player.socket.emit(name, content);
         });
     }

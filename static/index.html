@@ -10,18 +10,18 @@
 			var instrument = null;
 			var song = null;
 			var socket = null;
-			
-			function log() {
-				var text = Array.prototype.splice.call(arguments, 0).join(" ");
-				$("body").append($("<div>").text(text));
-			}
 		
 			$(function() {
+				var isAndroid = window.location.hash == "#android";
+				
+				var payload = {name: "yusuf"};
+				if(isAndroid) payload["instrument"] = "special";
+				
 				$.ajax({
 					type: "POST",
 					url: "/api/init",
 					dataType: "json",
-					data: {name: "yusuf"},
+					data: payload,
 					
 					success: function(json) {
 						playerId = json.playerId;
@@ -53,21 +53,21 @@
 			}
 			
 			function ready() {
-				log("ready:", playerId, stageId, instrument, song);
+				console.log("ready:", playerId, stageId, instrument, song);
 				
 				socket = io.connect();
 			
 				socket.on('connect', function() {
 					msg("abbey-node/player/ready");
-					setTimeout(periodic, 1000);
 				});
 
 				socket.on('abbey-node/stage/ready', function(msg) {
-					log('stage ready:', msg);
+					console.log('stage ready:', msg);
+					setTimeout(periodic, 1000);
 				});
 				
 				socket.on('abbey-node/player/oops', function(msg) {
-					log('oops:', msg);
+					console.log('oops:', msg);
 				});
 			}
 		</script>
