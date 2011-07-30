@@ -3,182 +3,153 @@
 		<title>Abbey Node Demo</title>
 		<link rel="stylesheet" href="css/reset.css" />
 		<link rel="stylesheet" href="css/style.css" />
+		<script src="buzz.js" type="text/javascript"></script>
 		<script src="/socket.io/socket.io.js" type="text/javascript"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
-    <script src="app.js" type="text/javascript"></script>
-		<script type="text/javascript">
-			var playerId = null;
-			var stageId = null;
-			var instrument = null;
-			var song = null;
-			var socket = null;
+		<script type="text/javascript" src="js/ui.js"></script>
+		<script src="js/loader.js" type="text/javascript"></script>
+		<script src="js/app.js" type="text/javascript"></script>
+		<script src="js/underscore.js" type="text/javascript"></script>
 		
-			$(function() {
-				var isAndroid = window.location.hash == "#android";
-				
-				var payload = {name: "yusuf"};
-				if(isAndroid) payload["instrument"] = "special";
-				
-				$.ajax({
-					type: "POST",
-					url: "/api/init",
-					dataType: "json",
-					data: payload,
-					
-					success: function(json) {
-						playerId = json.playerId;
-						stageId = json.stageId;
-						instrument = json.instrument;
-						song = json.song;
-						ready();
-					}
-				});
-			});
-			
-			function msg(name) {
-				socket.emit(name, {
-					playerId: playerId,
-					stageId: stageId
-				});
-			}
-			
-			var calls = 0;
-			function periodic() {
-				if(calls == 3) {
-					msg("abbey-node/player/done"); 
-				} else {
-					msg("abbey-node/player/oops");
-				}
-				
-				calls += 1;
-				if(calls < 4) setTimeout(periodic, 1000);
-			}
-			
-			function ready() {
-				console.log("ready:", playerId, stageId, instrument, song);
-				
-				socket = io.connect();
-			
-				socket.on('connect', function() {
-					msg("abbey-node/player/ready");
-				});
+		<script type="text/javascript">
+		var socket = io.connect();
+		var playerId = null;
+		var stageId = null;
+		var instrument = null;
+		var song = null;
+		var songTrack = null;
+		var songMetadata = null;
+		
+		function msg(name) {
+		    console.log(name, playerId, stageId);
 
-				socket.on('abbey-node/stage/ready', function(msg) {
-					console.log('stage ready:', msg);
-					setTimeout(periodic, 1000);
-				});
-				
-				socket.on('abbey-node/player/oops', function(msg) {
-					console.log('oops:', msg);
-				});
-			}
+			socket.emit(name, {
+				playerId: playerId,
+				stageId: stageId
+			});
+		}
+		
+		socket.on('abbey-node/stage/ready', function(msg) {
+			$("#landingPage").remove();
+			$("#stage").css("display", "block");
+			
+			songTrack.play();
+			var canvasTimer = createCanvas();
+		});
+
+		socket.on('abbey-node/player/oops', function(msg) {
+			createStars();
+		});
+
+		socket.on('abbey-node/player/lyrics', function(msg) {
+			//TODO
+		});
 		</script>
 	</head>
+	
 	<body id="player">
-		<div id="navBar">
-			<a href="index.html">
-				<img src="img/logo.png" alt="" />
-			</a>
+		<div id="landingPage">
+			<h1>Welcome to Abbey Node.</h1>
+			<h2>Choose an Instrument.</h2>
+			
 			<ul>
-				<li>Profile</li>
-				<li>Options</li>
-				<li>Save Track</li>
+				<li><div class="instr" style="background:url(img/land_drum.png)"></div></li>
+				<li><div class="instr" style="background:url(img/land_guitar.png)"></div></li>
+				<li><div class="instr" style="background:url(img/land_mic.png)"></div></li>
 			</ul>
+		  <a href="/app.html">Go!</a>	
 		</div>
 		
-		<div id="music">
-			
-			<div id="musicTrack">
-				<div id="mst_menu">
-					<ul>
-						<li>How to Play</li>
-						<li>Keyboard Guide</li>
-						<li>Connect with Friends</li>
-					</ul>
-				</div>
-				
-				<h1>Don't Stop Believin'</h1>
-				<h2>Journey</h2>
-
-				<div id="mst_options">
-					<h1>Your Track</h1>
-				</div>
-				<div id="mst_keys">
-					<ul>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-					</ul>
-				</div>
-				<div id="mst_notes_lines">
-					<ul>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-					</ul>
-				</div>
-				<div id="mst_notes"></div>
+		<div id="stage" style="display: none;">
+			<div id="navBar">
+				<a href="index.html">
+					<img src="img/logo.png" alt="" />
+				</a>
+				<ul>
+					<li>Profile</li>
+					<li>Options</li>
+					<li>Save Track</li>
+				</ul>
 			</div>
+		
+			<div id="music">
 			
-			<div id="musicFriends">
-				
-				<div class="frBody">
-					<div class="frHead"></div>
-					<div class="frInstrument"></div>
-					<div class="frName">Chris</div>
-				</div>
-				
-				<div class="frBody" style="background: green">
-					<div class="frHead"></div>
-					<div class="frInstrument"></div>
-					<div class="frName">Rich</div>
-				</div>
-				
-				<div class="frBody" style="background: teal">
-					<div class="frHead"></div>
-					<div class="frInstrument"></div>
-					<div class="frName">Yusuf</div>
-				</div>
-				
-				<div class="addFr">
-					Invite a Friend
-				</div>
-				
-			</div>
-			
-			<div id="musicAvatar">
-				<div id="mav_shadow"></div>
-				<div id="mav_body">
-					<img id="mav_instrument" src="img/guitar.png" alt="" />
-					<div id="mav_head">
-						<img id="mvh-sg" src="img/sunglasses.png" style="display: none; top: 25px; left: 5px" />
+				<div id="musicTrack">
+					<div id="mst_menu">
+						<ul>
+							<li>How to Play</li>
+							<li>Keyboard Guide</li>
+							<li>Connect with Friends</li>
+						</ul>
 					</div>
-					<div class="mav_hand" id="mvh_left"></div>
-					<div class="mav_hand" id="mvh_right"></div>
+				
+					<h1>Don't Fear The Reaper</h1>
+					<h2>Blue Öyster Cult</h2>
+
+					<div id="mst_options">
+						<h1>Your Track</h1>
+					</div>
+					<div id="mst_notes">
+						<canvas id="view"></canvas>
+					</div>
 				</div>
-				<h1>Brian</h1>
-				<div id="mav_dress">
-					<input type="text" id="mav_name" placeholder="Choose a Name"/>
-					<ul>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-					</ul>
-				</div>
-			</div>
 			
-		</div>
+				<div id="musicFriends">
+				
+					<div class="frBody">
+						<div class="frHead"></div>
+						<div class="frInstrument"></div>
+						<div class="frName">Chris</div>
+					</div>
+				
+					<div class="frBody" style="background: green">
+						<div class="frHead"></div>
+						<div class="frInstrument"></div>
+						<div class="frName">Rich</div>
+					</div>
+				
+					<div class="frBody" style="background: teal">
+						<div class="frHead"></div>
+						<div class="frInstrument"></div>
+						<div class="frName">Yusuf</div>
+					</div>
+				
+					<div class="addFr">
+						Invite a Friend
+					</div>
+				
+				</div>
+			
+				<div id="musicAvatar">
+					<div id="mav_shadow"></div>
+					<div id="mav_body">
+						<img id="mav_instrument" src="img/guitar.png" alt="" />
+						<div id="mav_head">
+							<img id="mvh-sg" src="img/sunglasses.png" style="display: none; top: 25px; left: 5px" />
+						</div>
+						<div class="mav_hand" id="mvh_left"></div>
+						<div class="mav_hand" id="mvh_right"></div>
+					</div>
+					<h1>Brian</h1>
+					<div id="mav_dress">
+						<input type="text" id="mav_name" placeholder="Choose a Name"/>
+						<ul>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+						</ul>
+					</div>
+				</div>
+			
+			</div>
 		
-		<div id="optionBar">
-			<div id="optTimer">
-				00:10:00
+			<div id="optionBar">
+				<div id="optTimer">
+					00:10:00
+				</div>
 			</div>
 		</div>
 	</body>
