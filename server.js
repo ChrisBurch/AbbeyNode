@@ -40,7 +40,8 @@ app.post('/api/song', formCallback(function(request, response, fields, files) {
 //Special endpoints for android
 app.post('/api/accuracy', formCallback(function(request, response, fields, files) {
     console.log("hi?");
-    stages[fields.stageId].broadcast("abbey-node/player/lyrics", fields.lyrics);
+    var stage = stages[fields.stageId];
+    if(stage) stage.broadcast("abbey-node/player/lyrics", fields.lyrics);
 }));
 
 //socket.io endpoint
