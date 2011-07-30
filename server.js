@@ -1,5 +1,6 @@
 var express = require("express");
 var form = require("connect-form");
+var querystring = require("querystring");
 
 var _ = require("./underscore")._;
 var model = require("./model");
@@ -32,7 +33,7 @@ app.post('/api/sheet', formCallback(function(request, response, fields, files) {
 
 app.post('/api/song', formCallback(function(request, response, fields, files) {
     songs.saveSong(fields.name, files.song.path);
-    response.redirect(SONG_UPLOAD_REDIRECT_URL);
+    response.redirect(SONG_UPLOAD_REDIRECT_URL + "?" + querystring.stringify({name: fields.name}));
 }));
 
 //Special endpoints for android
