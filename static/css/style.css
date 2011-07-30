@@ -502,7 +502,8 @@ div#optTimer {
 /* LYRICS */
 
 div#musicLyrics {
-	float: right;
+    position: fixed;
+    bottom: 0;
 	padding: 1%;
 	background: #181818;
 	width: 68%;
